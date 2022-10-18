@@ -1,9 +1,9 @@
 #!/usr/bin/bash
-CUDA_VERSION=11-6
+CUDA_VERSION=11-7
 CUDNN_VERSION=8
-TENSORRT_RPM=nv-tensorrt-repo-rhel8-cuda11.4-trt8.2.5.1-ga-20220505-1-1.x86_64.rpm
+TENSORRT_RPM=nv-tensorrt-repo-rhel8-cuda11.6-trt8.4.2.4-ga-20220720-1-1.x86_64.rpm
 TENSORRT_VERSION=8
-TENSOR_MINOR=2.5
+TENSOR_MINOR=4.3
 set -e
 cat << EOF > /etc/yum.repos.d/nvidia.repo
 [cuda]
@@ -35,7 +35,9 @@ dnf install -y /$TENSORRT_RPM
 rm -f /$TENSORRT_RPM
 dnf update -y
 dnf install -y gcc gcc-c++ gcc-gfortran autoconf automake binutils gdb glibc-devel libtool make pkgconf pkgconf-m4 pkgconf-pkg-config cmake
-dnf install -y cuda-*${CUDA_VERSION}* libcublas-devel-${CUDA_VERSION} libcublas-${CUDA_VERSION} libcufft-${CUDA_VERSION} libcufft-devel-${CUDA_VERSION} \
+dnf install -y --exclude=nvidia-driver* cuda-libraries-${CUDA_VERSION} cuda-libraries-devel-${CUDA_VERSION} cuda-cudart-${CUDA_VERSION} cuda-cudart-devel-${CUDA_VERSION} \
+cuda-minimal-build-${CUDA_VERSION} cuda-driver-devel-${CUDA_VERSION} cuda-nv*-${CUDA_VERSION} cuda-compat-*${CUDA_VERSION}* libcublas-devel-${CUDA_VERSION} \
+libcublas-${CUDA_VERSION} libcufft-${CUDA_VERSION} libcufft-devel-${CUDA_VERSION} cuda-cupti-${CUDA_VERSION} \
 libcurand-${CUDA_VERSION} libcurand-devel-${CUDA_VERSION} libcusolver-${CUDA_VERSION} libcusolver-devel-${CUDA_VERSION} libcusparse-${CUDA_VERSION} \
 libcusparse-devel-${CUDA_VERSION} libnvinfer$TENSORRT_VERSION libnvinfer-plugin$TENSORRT_VERSION libnvparsers$TENSORRT_VERSION \
 libnvparsers-devel libnvonnxparsers${TENSORRT_VERSION} libnvonnxparsers-devel tensorrt \

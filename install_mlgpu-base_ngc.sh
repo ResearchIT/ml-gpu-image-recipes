@@ -1,5 +1,3 @@
-source /opt/rh/gcc-toolset-11/enable
-
 PYTHON_PACKAGES="keras pillow scikit-learn pandas pandas_ml matplotlib>=3.0.0 mxnet mlxtend tensorboard jupyter jupyterlab numba librosa soundfile cupy-cuda117 "
 dnf install -y libgomp libsndfile libsndfile-devel libvorbis libvorbis-devel flac-libs flac-devel libmad libmad-devel \
 lame-libs lame-devel opus opus-devel sox sox-devel opencv* openblas openblas-devel libjpeg-turbo-devel libpng-devel \
@@ -24,8 +22,6 @@ python -m pip install "jax[cuda11_cudnn82]" -f https://storage.googleapis.com/ja
 #dnf config-manager --set-enabled PowerTools
 dnf install -y --setopt=tsflags= R-core
 dnf install -y R-core-devel R-devel R-Rcpp R-Rcpp-devel
-# workaround for missing annobin in the 11 toolset by default
-dnf install -y gcc-toolset-11-annobin-plugin-gcc
 R --no-save <<EOL
 install.packages("pkgbuild", repos="https://mirror.las.iastate.edu/CRAN/")
 install.packages("devtools", repos="https://mirror.las.iastate.edu/CRAN/")
@@ -37,40 +33,3 @@ library(tensorflow)
 try(devtools::install_github("rstudio/keras"))
 library(keras)
 EOL
-dnf install -y git 
-export TORCH_CUDA_ARCH_LIST="6.1+PTX 7.0+PTX 7.5+PTX 8.0+PTX"
-export KERAS_BACKEND=tensorflow
-export CUDADIR=/usr/local/cuda-11.7
-export CUDA_HOME=$CUDADIR
-export PATH=/usr/local/cuda/bin:$PATH
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64
-# export MAGMA_HOME=/opt/magma
-export FORCE_CUDA=1
-
-python3 -m pip install scipy pip 'setuptools<60'
-python3 -m pip install opencv-python
-python3 -m pip install git+https://github.com/rusty1s/pytorch_scatter@master
-python3 -m pip install git+https://github.com/rusty1s/pytorch_sparse@master
-python3 -m pip install git+https://github.com/rusty1s/pytorch_cluster@master
-python3 -m pip install git+https://github.com/rusty1s/pytorch_spline_conv@master
-python3 -m pip install git+https://github.com/pyg-team/pytorch_geometric@master
-python3 -m pip install ogb
-#python3 -m pip install dgl-cu116 -f https://data.dgl.ai/wheels/repo.html
-#dgl source build
-mkdir /build
-cd  /build
-git clone --recurse-submodules https://github.com/dmlc/dgl.git
-cd dgl
-mkdir build
-cd build
-cmake -DUSE_CUDA=ON ..
-make -j4
-cd ../python
-python3 setup.py install
-
-#cleanup
-cd /
-yum clean all
-rm -rf /var/cache/dnf/*
-rm -rf /build
-

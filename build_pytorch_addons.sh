@@ -1,4 +1,4 @@
-container=$(buildah from --ulimit nofile=8192:8192 localhost/centos8-cuda11.6-cudnn8-tensorrt8-python39-tensorflow-pytorch:latest)
+container=$(buildah from --ulimit nofile=8192:8192 localhost/centos8-cuda11.7-cudnn8-tensorrt8-python310-tensorflow-pytorch:latest)
 trap 'cleanup' ERR
 cleanup() {
 	echo "Build failed, cleaning up."

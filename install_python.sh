@@ -1,12 +1,14 @@
 PYTHON_MAJOR=3
-PYTHON_MINOR=9
-PYTHON_PATCH=13
+PYTHON_MINOR=10
+PYTHON_PATCH=7
 ARCH='haswell'
-TRT_TARBALL=TensorRT-8.2.5.1.Linux.x86_64-gnu.cuda-11.4.cudnn8.2.tar.gz
-TRT_WHEEL=TensorRT-8.2.5.1/python/tensorrt-8.2.5.1-cp39-none-linux_x86_64.whl
+TRT_TARBALL=TensorRT-8.4.2.4.Linux.x86_64-gnu.cuda-11.6.cudnn8.4.tar.gz
+TRT_WHEEL=TensorRT-8.4.2.4/python/tensorrt-8.4.2.4-cp310-none-linux_x86_64.whl
 set -e
 mkdir /build
-dnf install -y openssl-devel libffi-devel git bzip2-devel xz-devel sqlite-devel readline-devel ncurses-devel tk-devel uuid-devel
+dnf install -y openssl-devel libffi-devel git bzip2-devel xz-devel sqlite-devel readline-devel ncurses-devel tk-devel uuid-devel gcc-toolset-11
+# ENABLE NEW GCC
+source /opt/rh/gcc-toolset-11/enable
 cd /build
 curl -L https://www.python.org/ftp/python/${PYTHON_MAJOR}.${PYTHON_MINOR}.${PYTHON_PATCH}/Python-${PYTHON_MAJOR}.${PYTHON_MINOR}.${PYTHON_PATCH}.tgz | tar -xz
 cd Python-${PYTHON_MAJOR}.${PYTHON_MINOR}.${PYTHON_PATCH}

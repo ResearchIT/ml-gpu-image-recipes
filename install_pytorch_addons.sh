@@ -30,6 +30,6 @@ cd torchaudio
 python3 setup.py install
 #python3 -m pip install .
 cd /build
-dnf remove -y git ninja-build
+dnf remove -y git
 dnf clean all
 set +e
