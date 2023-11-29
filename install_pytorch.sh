@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -e
-export CUDADIR=/usr/local/cuda-11.7
-# ENABLE NEW GCC
-source /opt/rh/gcc-toolset-11/enable
+export CUDADIR=/usr/local/cuda-11.8
 #export PYTORCH_NEEDS="cffi typing_extensions future six requests dataclasses pillow-simd pyyaml"
 #dnf install -y libgomp git libsndfile libsndfile-devel libvorbis libvorbis-devel flac-libs flac-devel libmad libmad-devel lame-libs lame-devel opus opus-devel sox sox-devel opencv* openblas openblas-devel libjpeg-turbo-devel libpng-devel libpng libjpeg-turbo ninja-build
 #mkdir /build
@@ -28,7 +26,7 @@ source /opt/rh/gcc-toolset-11/enable
 
 # BEGIN PYTORCH
 # Pytorch stuff
-python3 -m pip install --pre torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/nightly/cu117
+python3 -m pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 # from source
 #python3 -m pip install $PYTORCH_NEEDS
 #git clone --recursive --branch v1.11.0 https://github.com/pytorch/pytorch

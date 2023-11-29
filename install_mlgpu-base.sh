@@ -1,7 +1,5 @@
-source /opt/rh/gcc-toolset-11/enable
-
-PYTHON_PACKAGES="keras pillow scikit-learn pandas pandas_ml matplotlib>=3.0.0 mxnet mlxtend tensorboard jupyter jupyterlab numba librosa soundfile cupy-cuda117 "
-dnf install -y libgomp libsndfile libsndfile-devel libvorbis libvorbis-devel flac-libs flac-devel libmad libmad-devel \
+PYTHON_PACKAGES="keras pillow scikit-learn pandas pandas_ml matplotlib>=3.0.0 mxnet-cu117 mlxtend tensorboard jupyter jupyterlab numba librosa soundfile cupy-cuda11x "
+dnf install -y --allowerasing libgomp libsndfile libsndfile-devel libvorbis libvorbis-devel flac-libs flac-devel libmad libmad-devel \
 lame-libs lame-devel opus opus-devel sox sox-devel opencv* openblas openblas-devel libjpeg-turbo-devel libpng-devel \
 libpng libjpeg-turbo libcurl libcurl-devel gnutls gnutls-devel libxml2 libxml2-devel harfbuzz-devel harfbuzz \
 fribidi-devel fribidi freetype-devel libpng-devel libtiff-devel libjpeg-turbo-devel
@@ -15,7 +13,7 @@ ln -s /usr/bin/python3 /usr/bin/python
 #python3 build/build.py --enable_cuda
 #python3 -m pip install dist/*.whl
 #python3 -m pip install .
-python -m pip install "jax[cuda11_cudnn82]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+python -m pip install "jax[cuda11_cudnn86]" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
 
 # install R
 ## Turn off nodoc as that ruins R apparently
@@ -24,8 +22,6 @@ python -m pip install "jax[cuda11_cudnn82]" -f https://storage.googleapis.com/ja
 #dnf config-manager --set-enabled PowerTools
 dnf install -y --setopt=tsflags= R-core
 dnf install -y R-core-devel R-devel R-Rcpp R-Rcpp-devel
-# workaround for missing annobin in the 11 toolset by default
-dnf install -y gcc-toolset-11-annobin-plugin-gcc
 R --no-save <<EOL
 install.packages("pkgbuild", repos="https://mirror.las.iastate.edu/CRAN/")
 install.packages("devtools", repos="https://mirror.las.iastate.edu/CRAN/")
@@ -40,7 +36,7 @@ EOL
 dnf install -y git 
 export TORCH_CUDA_ARCH_LIST="6.1+PTX 7.0+PTX 7.5+PTX 8.0+PTX"
 export KERAS_BACKEND=tensorflow
-export CUDADIR=/usr/local/cuda-11.7
+export CUDADIR=/usr/local/cuda-11.8
 export CUDA_HOME=$CUDADIR
 export PATH=/usr/local/cuda/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64
